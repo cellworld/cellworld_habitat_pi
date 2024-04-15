@@ -40,7 +40,7 @@ class Experiment:
                 self.doors.close_door(2)
                 sleep(.2)
                 print('\tstarting feeder')
-                self.feeders.active = True
+                # self.feeders.active = True
             else:
                 print('\tclosingdoor0')
                 self.doors.close_door(0)
@@ -80,7 +80,7 @@ class Experiment:
             self.doors.open_door(3)
             sleep(.2)
             print('\tstarting feeder')
-            self.feeders.active = True
+            # self.feeders.active = True
         return 
         
     def episode_finished(self, exp_name):
@@ -96,7 +96,7 @@ class Experiment:
             self.doors.close_door(2)
             sleep(.2)
             print('\tstarting feeder')
-            self.feeders.active = True
+            # self.feeders.active = True
         else:
             print('\tclosing door 3')
             self.doors.close_door(3)
@@ -122,10 +122,10 @@ class Experiment:
 
     def prey_entered_arena(self):
         print('EXP COMMAND: prey entered arena')
-        if self.pi_name == 'maze1':
-            print('\tclosing door 2')
-            self.doors.close_door(2)
-            sleep(.2)
+        # if self.pi_name == 'maze1':
+        #     print('\tclosing door 2')
+        #     self.doors.close_door(2)
+        #     sleep(.2)
         return
 
     def experiment_resumed(self, parameters):
