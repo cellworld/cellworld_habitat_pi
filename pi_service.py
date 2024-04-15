@@ -15,6 +15,7 @@ class PiService(MessageServer):
         self.router.add_route("save_calibration", self.save_calibration)
         self.router.add_route("give_reward", self.give_reward, int)
         self.router.add_route("enable_feeder", self.enable_feeder, int)
+        self.router.add_route("disable_feeder", self.enable_feeder, int)
         self.router.add_route("feeder_reached", self.feeder_reached, int)
         self.router.add_route("test_feeder", self.test_feeder, TestFeederResponse)
         self.router.add_route("test_door", self.test_door, TestDoorResponse)
@@ -54,18 +55,24 @@ class PiService(MessageServer):
             print(f"feeding feeder{feeder_num}")
             self.experiment.feeders.feed()
             return f"feeding {feeder_num}"
-        return f"feeder{feeder_num} not found"
+        return f"feeder {feeder_num} not found"
 
     def enable_feeder(self, feeder_num) -> str:
         if feeder_num == self.experiment.feeder_number:
             print(f"Enabling feeder{feeder_num}")
             self.experiment.feeders.active = True
         return f"Enabled feeder{feeder_num}"
+
+    def disable_feeder(self, feeder_num) -> str:
+        if feeder_num == self.experiment.feeder_number:
+            print(f"Disabling feeder{feeder_num}")
+            self.experiment.feeders.active = False
+        return f"Disabled feeder{feeder_num}"
         
     def feeder_reached(self, feeder_num) -> str:
         if feeder_num == self.experiment.feeder_number:
             print(f"Activating feeder{feeder_num}")
-            self.experiment.feeders.report_feeder(self.experiment)
+            self.experiment.feeders.report_feeder()
         return f"Activating feeder{feeder_num}"
 
     def test_feeder(self, parameters: TestFeederResponse) -> str:
