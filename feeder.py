@@ -3,6 +3,7 @@ import os
 import cellworld
 from gpiozero import Button, LED
 from time import sleep
+import doors as door
 from cellworld_experiment_service import StartEpisodeRequest
 import requests 
 from _thread import start_new_thread
@@ -56,20 +57,21 @@ class Feeder:
     def report_feeder(self):
         print('\t Starting report_feeder')
         if self.experiment.pi_name == 'maze1':
-            if self.experiment.active_exp_name != self.experiment.exp_name and self.experiment.active_exp_name != '':
-                print(f'\tActive experiment still running. Finishing active experiment: {self.experiment.active_exp_name}')
-                self.experiment.client.finish_experiment(self.experiment.active_exp_name)
-            if self.experiment.client.is_active(self.experiment.exp_name):
-                print(f'\tstarting episode: {self.experiment.exp_name}')
-                self.experiment.client.start_episode(experiment_name = self.experiment.exp_name, rewards_sequence = cellworld.Cell_group_builder())
-            else:
-                print(f'\tfinishing experiment: {self.experiment.exp_name}')
-                self.experiment.experiment_finished(self.experiment.exp_name)
-                self.experiment.client.finish_experiment(self.experiment.exp_name)
-                self.experiment.active_exp_name = ''
+            print('reporting feeder, doing nothing')
+            # if self.experiment.active_exp_name != self.experiment.exp_name and self.experiment.active_exp_name != '':
+            #     print(f'\tActive experiment still running. Finishing active experiment: {self.experiment.active_exp_name}')
+            #     self.experiment.client.finish_experiment(self.experiment.active_exp_name)
+            # if self.experiment.client.is_active(self.experiment.exp_name):
+            #     print(f'\tstarting episode: {self.experiment.exp_name}')
+            #     self.experiment.client.start_episode(experiment_name = self.experiment.exp_name, rewards_sequence = cellworld.Cell_group_builder())
+            # else:
+            #     print(f'\tfinishing experiment: {self.experiment.exp_name}')
+            #     self.experiment.experiment_finished(self.experiment.exp_name)
+            #     self.experiment.client.finish_experiment(self.experiment.exp_name)
+            #     self.experiment.active_exp_name = ''
         else:
-            print(f'\tfinishing episode: {self.experiment.active_exp_name}')
-            self.experiment.client.finish_episode()
+            print(f'\tgiving water: {self.experiment.active_exp_name}')
+            self.experiment.doors.open_door(0)
             
     def feed(self, feeding_time=None):
         if feeding_time is None:
